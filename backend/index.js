@@ -9,7 +9,7 @@ const createPost = require("./controllers/Post/CreatePost");
 const cors  = require("cors");
 
 app.use(cors({
-  origin: ["https://b-e-blog-website-api.vercel.app"], // Allow requests from this origin
+  origin: [""], // Allow requests from this origin
   methods: ["POST", "GET"], // Allow only these HTTP methods
   credentials: true // Allow cookies and authorization headers to be included
 }));
