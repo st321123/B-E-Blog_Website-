@@ -9,8 +9,6 @@ const Url = process.env.DB_URL;
 mongoose.connect(Url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
   ssl: true // Ensure SSL is enabled
 })
 .then(() => console.log('MongoDB connected successfully'))
