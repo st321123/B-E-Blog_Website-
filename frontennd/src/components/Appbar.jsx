@@ -3,7 +3,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 // import { FaUser } from 'react-icons/fa'; // Importing the user icon from react-icons
 
 export function NavBar() {
-  const user = localStorage.getItem("user");
+  const user = typeof window !== 'undefined' ? localStorage.getItem("user") : null;
+
+
+  
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,7 +20,8 @@ export function NavBar() {
   };
 
   // Check if the current location is either '/signin' or '/signup'
-  const isAuthPage = (user? true:false);
+  const isAuthPage = !!user; // Convert to boolean
+
   
 
   
