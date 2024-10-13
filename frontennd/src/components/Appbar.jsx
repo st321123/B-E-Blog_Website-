@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa'; // Importing the user icon from react-icons
 
-export function AppBar() {
+export function NavBar() {
   const user = localStorage.getItem("user");
   const navigate = useNavigate();
   const location = useLocation();
