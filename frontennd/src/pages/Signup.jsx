@@ -37,7 +37,7 @@ return(
 
 
    <Button onClick = { async ()=>{
-    // console.log(email,password,author);
+  
     
     try{
 
