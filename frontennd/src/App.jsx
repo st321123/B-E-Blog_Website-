@@ -21,7 +21,7 @@ function App() {
      
     <BrowserRouter> 
     
-{/*     <NavBar /> */}
+    <NavBar />
     <Routes>
       <Route path='/' element={user ? <Dashboard /> : <Signin />} />
       <Route path='/signup' element={<Signup />} />
