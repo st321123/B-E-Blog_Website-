@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaUser } from 'react-icons/fa'; // Importing the user icon from react-icons
+// import { FaUser } from 'react-icons/fa'; // Importing the user icon from react-icons
 
 export function NavBar() {
   const user = localStorage.getItem("user");
@@ -53,10 +53,10 @@ export function NavBar() {
               <div 
                 className="flex items-center justify-center rounded-full w-10 h-10 bg-blue-500 text-white font-bold border-2 border-white"
               >
-                {user && user[0]} {/* Display the first character of the username */}
+{/*                 {user && user[0]} {/* Display the first character of the username */} */}
               </div>
               <span className="text-lg font-medium flex items-center">
-                <FaUser className="mr-2" /> {/* User icon */}
+{/*                 <FaUser className="mr-2" /> {/* User icon */} */}
                 {user && user}
               </span>
             </Link>
