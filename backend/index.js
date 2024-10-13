@@ -9,11 +9,7 @@ const createPost = require("./controllers/Post/CreatePost");
 const singlePost = require("./controllers/Post/SinglePost");
 const cors  = require("cors");
 
-app.use(cors({
-  origin: [""], // Allow requests from this origin
-  methods: ["POST", "GET"], // Allow only these HTTP methods
-  credentials: true // Allow cookies and authorization headers to be included
-}));
+app.use(cors());
 
 require('dotenv').config();
 app.use(express.json());
