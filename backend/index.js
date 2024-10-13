@@ -32,7 +32,9 @@ app.use('/user',user);
 app.use('/createPost',createPost);
 app.use('/user-posts', userPost);
 app.use('/user-post-id',singlePost)
-
+app.get("/", (req,res)=>{
+    res.send("THIS IS HOMe Pgaeg");
+});
 
 
 app.listen(PORT, ()=>{
