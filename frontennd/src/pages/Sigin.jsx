@@ -6,7 +6,7 @@ import { BottomWarning } from "../components/BottomWarning";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { NavBar } from "../components/AppBar";
+
 
 export function Signin({ setUser }) {
   const [error, SetError] = useState("");
@@ -23,8 +23,7 @@ export function Signin({ setUser }) {
     
     
   return (
-    <div>
-      <NavBar/>
+   
     <div className="flex flex-col" style={{ height: 'calc(100vh - 76px)' }}>
       
       <div className="flex flex-col items-center justify-center h-full bg-slate-300">
@@ -85,7 +84,7 @@ export function Signin({ setUser }) {
           </div>
         </div>
       </div>
-    </div>
+   
       </div>
   );
 }
