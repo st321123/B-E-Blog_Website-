@@ -17,8 +17,10 @@ export function AppBar() {
   };
 
   // Check if the current location is either '/signin' or '/signup'
-  const isAuthPage = location.pathname === '/signin' || location.pathname === '/signup';
+  const isAuthPage = (user? true:false);
+  
 
+  
   return (
     <nav className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 p-5 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
@@ -28,7 +30,7 @@ export function AppBar() {
         </div>
 
         {/* Right side - Navigation Links */}
-        {!isAuthPage && ( // Only render the right-side links if not on auth pages
+        {isAuthPage && ( // Only render the right-side links if not on auth pages
           <div className="flex items-center space-x-6">
             {/* Home Link */}
             <Link 

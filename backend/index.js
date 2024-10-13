@@ -6,6 +6,7 @@ const signin = require('./controllers/Signin');
 const user = require("./controllers/User");
 const userPost = require("./controllers/Post/UserPost");
 const createPost = require("./controllers/Post/CreatePost");
+const singlePost = require("./controllers/Post/SinglePost");
 const cors  = require("cors");
 
 app.use(cors());
@@ -16,13 +17,14 @@ app.use(express.json());
 const router = express.Router();
 const PORT = process.env.PORT || 3000;
 
-console.log(Url);
+// console.log(Url);
 
 app.use("/signup",signup);
 app.use('/signin',signin);
 app.use('/user',user);
 app.use('/createPost',createPost);
 app.use('/user-posts', userPost);
+app.use('/user-post-id',singlePost)
 
 
 

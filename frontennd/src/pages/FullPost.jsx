@@ -7,14 +7,17 @@ import { FullPostCard } from '../components/FullPostCard';
 export  function FullPost() {
     const [data,setData] = useState([]);
     const { id } = useParams();
-    // const BASE_URL =   import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const BASE_URL =   import.meta.env.VITE_API_URL || 'http://localhost:3000';
     
     
     useEffect(()=>{
-       const dataa =  axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`).then((val)=>{
+       const dataa =  axios.get(`${BASE_URL}/user-post-id`,{
+        params: { id }
+       }).then((val)=>{
        
         
-        setData(val.data);
+        
+        setData(val.data.db[0]);
        })
     },[id])
 
@@ -25,12 +28,13 @@ export  function FullPost() {
    
    
    
+ 
    
   return (
 
     <div className=' h-screen flex flex-col '>
     
-         <FullPostCard id = {data.id} key = {data.id} userId={data.userId} title={data.title} description={data.body} />
+         <FullPostCard id = {data.id} key = {data._id} userId={data.userId} title={data.title} description={data.description} author = {data.author.author} />
       
     </div>
   )

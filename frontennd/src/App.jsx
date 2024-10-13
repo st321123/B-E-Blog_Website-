@@ -8,6 +8,7 @@ import {CreatePost} from "./pages/CreatePost";
 import { PostCreatedSuccess } from './pages/PostCreatedSucess';
 import { AppBar } from './components/AppBar';
 import { Profile } from './pages/Profile';
+import NotFound from "./pages/NotFound"
 
 // import {NotFound} from "./pages/NotFound";
 
@@ -19,6 +20,7 @@ function App() {
      
      
     <BrowserRouter> 
+    
     <AppBar />
     <Routes>
       <Route path='/' element={user ? <Dashboard /> : <Signin />} />
@@ -31,7 +33,7 @@ function App() {
       <Route path='/create-post' element={<CreatePost />} ></Route> 
 
       <Route path='post-created-sucess' element = {<PostCreatedSuccess />}></Route>
-      {/* <Route path = "*" element = {NotFound} ></Route> */}
+      <Route path = "*" element = {<NotFound />} ></Route>
     </Routes>
    
     </BrowserRouter>       

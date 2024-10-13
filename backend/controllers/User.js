@@ -4,25 +4,22 @@ const app = express();
 
 app.use(express.json());
 const router = express.Router();
+router.get('/', async (req, res) => {
+    
+    try {
+        const posts = await Post.find().populate('author', 'author').exec();  // 'name' field from User schema
+       
+        
+        res.status(200).json({
+            msg: "Success",
+            posts: posts
+        });
 
-
-router.get('/', async (req,res)=>{
-
-    try{
-         const post = await Post.find();
-        //  console.log(post);
-
-         res.status(200).json({
-            msg:"Success"
-         })
-         
-    }
-
-    catch(error)
-    {
+    } catch (error) {
+        console.error(error);
         res.status(400).json({
-            msg:error
-        })
+            msg: error.message
+        });
     }
-})
+});
 module.exports = router;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 // Import PostCard component for displaying posts
-import { ProfilePostCard } from '../components/ProfilePostCard'; 
+import {PostCard } from '../components/PostCard'; 
 
 export function Profile() {
   
@@ -47,7 +47,7 @@ export function Profile() {
         <div className="grid grid-cols-1 gap-4">
           {posts.length > 0 ? (
             posts.map((post) => (
-              <ProfilePostCard key={post._id} id={post._id} title={post.title} description={post.description} />
+              <PostCard key={post._id} id={post._id} title={post.title} description={post.description} />
             ))
           ) : (
             <p>No posts created by this user.</p>

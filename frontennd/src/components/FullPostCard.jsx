@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function FullPostCard({ userId, title, description, image, id }) {
+export function FullPostCard({ author, title, description, image, id }) {
   return (
     <div className="flex flex-col bg-white shadow-lg rounded-lg p-6 mx-auto my-8 w-full max-w-4xl  hover:shadow-2xl hover:scale-105">
       
@@ -26,7 +26,7 @@ export function FullPostCard({ userId, title, description, image, id }) {
       </p>
 
       <div className="w-full text-right mt-auto">
-        <p className="text-sm font-medium text-gray-600 italic">Author: {userId}</p>
+        <p className="text-sm font-medium text-gray-600 italic">Author: {author}</p>
       </div>
     </div>
   );

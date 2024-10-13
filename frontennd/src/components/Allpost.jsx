@@ -7,20 +7,24 @@ export function Allpost() {
     const [currentPage, setCurrentPage] = useState(1); // Track the current page
     const [totalPages, setTotalPages] = useState(0); // Total number of pages
     const postsPerPage = 5; // Number of posts per page
+    const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
     
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get("https://jsonplaceholder.typicode.com/posts", {
+                const response = await axios.get(`${BASE_URL}/user`, {
                     params: {
                         _limit: postsPerPage,
                         _page: currentPage, // Fetch posts for the current page
                     }
                 });
-                setPosts(response.data);
+
+               
+                
+                setPosts(response.data.posts);
                 // The total number of posts is in the response headers (X-Total-Count)
-                const totalPosts = response.headers['x-total-count'];
-                setTotalPages(Math.ceil(totalPosts / postsPerPage));
+                const totalPosts = response.headers['x-total-count'] || response.data.posts.length; // Fallback to posts length
+                setTotalPages(Math.ceil(totalPosts / postsPerPage) || 1); // Ensure at least 1 page is set
             } catch (error) {
                 console.error("Error fetching posts:", error);
             }
@@ -50,33 +54,64 @@ export function Allpost() {
             <div className='w-full'>
                 {posts.map((post) => (
                     <PostCard
-                        id={post.id}
-                        key={post.id}
-                        userId={post.userId}
+                        id={post._id}
+                        key={post._id}
+                        name={post.author.author}
                         title={post.title}
-                        description={post.body}
+                        description={post.description}
                     />
                 ))}
             </div>
             
             {/* Pagination Controls */}
-            <div className="flex space-x-4 mt-4">
-                <button
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    className="bg-blue-500 text-white p-2 rounded disabled:opacity-50"
-                >
-                    Previous
-                </button>
-                <span className="self-center">{`Page ${currentPage} of ${totalPages}`}</span>
-                <button
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    className="bg-blue-500 text-white p-2 rounded disabled:opacity-50"
-                >
-                    Next
-                </button>
-            </div>
+            {totalPages > 1 && (
+                <div className="flex space-x-4 mt-4">
+                    <button
+                        onClick={handlePreviousPage}
+                        disabled={currentPage === 1}
+                        className="bg-blue-500 text-white p-2 rounded disabled:opacity-50"
+                    >
+                        Previous
+                    </button>
+                    <span className="self-center">{`Page ${currentPage} of ${totalPages}`}</span>
+                    <button
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                        className="bg-blue-500 text-white p-2 rounded disabled:opacity-50"
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
+
+            {/* When there's only 1 page, display a simple message */}
+            {totalPages === 1 && (
+                <div className="mt-4 text-gray-500">Page 1</div>
+            )}
         </div>
     );
 }
+
+    
+    // useEffect(() => {
+    //     const fetchPosts = async () => {
+    //         try {
+    //             const response = await axios.get("https://jsonplaceholder.typicode.com/posts", {
+    //                 params: {
+    //                     _limit: postsPerPage,
+    //                     _page: currentPage, // Fetch posts for the current page
+    //                 }
+    //             });
+    //             setPosts(response.data);
+    //             // The total number of posts is in the response headers (X-Total-Count)
+    //             const totalPosts = response.headers['x-total-count'];
+    //             setTotalPages(Math.ceil(totalPosts / postsPerPage));
+    //         } catch (error) {
+    //             console.error("Error fetching posts:", error);
+    //         }
+    //     };
+
+    //     fetchPosts();
+    // }, [currentPage]); // Re-fetch posts when currentPage changes
+
+   
