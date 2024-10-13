@@ -6,7 +6,7 @@ import {Signup} from "./pages/Signup"
 import { FullPost } from './pages/FullPost';
 import {CreatePost} from "./pages/CreatePost";
 import { PostCreatedSuccess } from './pages/PostCreatedSucess';
-// import { NavBar } from './components/AppBar';
+import { NavBar } from './components/AppBar';
 import { Profile } from './pages/Profile';
 import NotFound from "./pages/NotFound"
 
@@ -21,7 +21,7 @@ function App() {
      
     <BrowserRouter> 
     
-{/*     <NavBar /> */}
+    <NavBar />
     <Routes>
       <Route path='/' element={user ? <Dashboard /> : <Signin />} />
       <Route path='/signup' element={<Signup />} />
