@@ -6,7 +6,7 @@ import {Signup} from "./pages/Signup"
 import { FullPost } from './pages/FullPost';
 import {CreatePost} from "./pages/CreatePost";
 import { PostCreatedSuccess } from './pages/PostCreatedSucess';
-import { NavBar } from './components/Appbar';
+import {NavBar}  from "./components/AppBar";
 import { Profile } from './pages/Profile';
 import NotFound from "./pages/NotFound"
 
