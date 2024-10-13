@@ -11,11 +11,11 @@ const [author, setAuthor] = useState("");
 const [email, setemail] = useState("");
 const [password, setPassword] = useState("");
 const [error, setError] = useState("");
-<<<<<<< HEAD
+
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-=======
+
  const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
->>>>>>> 2e35faa2a30436100ea874552fa1a0c15b034798
+
 
 return(
     <div className="flex  h-screen justify-center bg-slate-300" style={{ height: 'calc(100vh - 76px)' }}>
