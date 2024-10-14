@@ -32,7 +32,7 @@ function App() {
       
       <Route path='/create-post' element={<CreatePost />} ></Route> 
 
-      <Route path='post-created-sucess' element = {<PostCreatedSuccess />}></Route>
+      <Route path='/post-created-sucess' element = {<PostCreatedSuccess />}></Route>
       <Route path = "*" element = {<NotFound />} ></Route>
     </Routes>
    
