@@ -7,7 +7,7 @@ app.use(express.json());
 
 const userSchema = zod.object({
     author: zod.string().min(1),  
-    password: zod.string().min(1),  
+    password: zod.string().min(8),  
     email: zod.string().email(),  
     bio: zod.string().optional().default(''),  
     createdAt: zod.date().default(() => new Date())  
