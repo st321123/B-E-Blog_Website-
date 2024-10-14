@@ -20,7 +20,7 @@ export function Allpost() {
         };
 
         fetchPosts();
-    }, []); // Fetch posts only once when the component mounts
+    }, [currentPage]); // Fetch posts only once when the component mounts
 
     // Calculate the index of the last and first post for the current page
     const indexOfLastPost = currentPage * postsPerPage;
