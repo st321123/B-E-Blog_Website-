@@ -22,7 +22,8 @@ export function CreatePost() {
             });
 
             if (response) {
-                navigate('/post-created-success');
+                
+                navigate('/post-created-sucess');
             }
 
             setTitle("");
