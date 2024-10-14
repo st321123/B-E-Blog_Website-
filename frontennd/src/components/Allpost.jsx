@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { PostCard } from './PostCard';
+import { useLocation } from 'react-router-dom'; // React Router hook to detect location changes
 
 export function Allpost() {
     const [posts, setPosts] = useState([]);  // State to store all posts
     const [currentPage, setCurrentPage] = useState(1); // Track the current page
     const postsPerPage = 5; // Number of posts per page
     const BASE_URL = import.meta.env.VITE_API_URL;
+    const location = useLocation(); // React Router hook to detect route changes
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -20,7 +22,7 @@ export function Allpost() {
         };
 
         fetchPosts();
-    }, [currentPage]); // Fetch posts only once when the component mounts
+    }, [location]); // Adding location to dependency array triggers re-fetch on navigation changes
 
     // Calculate the index of the last and first post for the current page
     const indexOfLastPost = currentPage * postsPerPage;
