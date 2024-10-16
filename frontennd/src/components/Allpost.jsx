@@ -15,11 +15,13 @@ export function Allpost() {
             try {
                 const response = await axios.get(`${BASE_URL}/user`);
                 // Assuming response.data.posts contains the array of posts
+                console.log(response.data.posts);
                 setPosts(response.data.posts);
             } catch (error) {
                 console.error("Error fetching posts:", error);
             }
         };
+      
 
         fetchPosts();
     }, [location]); // Adding location to dependency array triggers re-fetch on navigation changes
