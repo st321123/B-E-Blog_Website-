@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const Url = process.env.DB_URL;
 
+<<<<<<< HEAD
 mongoose.connect(Url);
 
 const db = mongoose.connection;
@@ -46,4 +47,13 @@ db.once('open', async()=>{ console.log("database connected");
     //     }
      
 });
+=======
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
 
+mongoose.connect(Url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  ssl: true // Ensure SSL is enabled
+})
+.then(() => console.log('MongoDB connected successfully'))
+.catch(err => console.error('MongoDB connection error:', err));

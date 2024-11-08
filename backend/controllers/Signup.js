@@ -9,7 +9,11 @@ require("dotenv").config();
 const jwtPass = process.env.JWT_SECRET
 
 const userSchema = zod.object({
+<<<<<<< HEAD
     userName: zod.string().min(1),  
+=======
+    author: zod.string().min(1),  
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
     password: zod.string().min(8),  
     email: zod.string().email(),  
     bio: zod.string().optional().default(''),  

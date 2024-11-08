@@ -15,20 +15,6 @@ export function PostCard({ name, title, description, id, likeCount }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
- 
-  const setLikeCount = useSetRecoilState( likeCountFamily(id));
-  useEffect(()=>{
-<<<<<<< HEAD
-=======
-
->>>>>>> 8b9ce95dc7da1221345cda8c9c7651ed0393daa4
-    setLikeCount(likeCount);
-  }, [])
-  
-  
-  
-  
- 
 
   // Function to toggle between full and short description
   const toggleDescription = () => {

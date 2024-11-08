@@ -8,21 +8,32 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 
 
+<<<<<<< HEAD
 export function Signin() {
+=======
+export function Signin({ setUser }) {
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
   const [error, SetError] = useState("");
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigator = useNavigate();
 
+<<<<<<< HEAD
   const BASE_URL = import.meta.env.VITE_API_URL;
+=======
+  const BASE_URL = import.meta.env.VITE_API_URL ;
+
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
 
   
 
     
     
   return (
+   
     <div className="flex flex-col" style={{ height: 'calc(100vh - 76px)' }}>
+      
       <div className="flex flex-col items-center justify-center h-full bg-slate-300">
         <div className="rounded-lg bg-white w-80 text-center p-4">
           <Header label={"Sign in"} />
@@ -81,6 +92,7 @@ export function Signin() {
           </div>
         </div>
       </div>
-    </div>
+   
+      </div>
   );
 }

@@ -12,8 +12,15 @@ const [userName, setUserName] = useState("");
 const [email, setemail] = useState("");
 const [password, setPassword] = useState("");
 const [error, setError] = useState("");
+<<<<<<< HEAD
 const navigate = useNavigate();
 const BASE_URL = import.meta.env.VITE_API_URL;
+=======
+
+
+
+ const BASE_URL = import.meta.env.VITE_API_URL ;
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
 
 
 return(
@@ -36,7 +43,11 @@ return(
 
 
    <Button onClick = { async ()=>{
+<<<<<<< HEAD
    
+=======
+  
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
     
     try{
 

@@ -15,7 +15,10 @@ const  Superchat  = require("./controllers/Post/Superchat");
 // const superchat = require("./controllers/Post/Superchat")
 const cors  = require("cors");
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
 app.use(cors());
 
 require('dotenv').config();
@@ -33,11 +36,18 @@ app.use('/user',user);
 app.use('/allPost',allPost);
 app.use('/createPost',createPost);
 app.use('/user-posts', userPost);
+<<<<<<< HEAD
 app.use('/',singlePost)
 app.use('/', likeCount);
 app.use('/',comment);
 app.use('/',followDataAndList);
 app.use('/',Superchat)
+=======
+app.use('/user-post-id',singlePost)
+app.get("/", (req,res)=>{
+    res.send("THIS IS HOMe Pgaeg");
+});
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
 
 
 app.listen(PORT, ()=>{

@@ -1,21 +1,12 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-=======
 import React, { useState } from 'react';
->>>>>>> 8b9ce95dc7da1221345cda8c9c7651ed0393daa4
-import { Card, CardContent, CardMedia, Typography, Button, Box, Link as MuiLink } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, IconButton, Button, Box, Avatar, Link as MuiLink } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { CommentSection } from './Comment';
 import axios from 'axios';
 import { ViewAllLikes } from './ViewAllLikes';
 import { Superchat } from './Superchat';
 import { Link } from 'react-router-dom';
-<<<<<<< HEAD
-import {useSetRecoilState} from "recoil"
-import { likeCountFamily } from '../store/like';
-import { LikeButton } from './Like';
-=======
->>>>>>> 8b9ce95dc7da1221345cda8c9c7651ed0393daa4
+import {DeletePost} from "./DeletePost"
 
 export function FullPostCard({ flag, setFlag, token, author, title, description, image, postId, likeCount, authorId }) {
     const BASE_URL = import.meta.env.VITE_API_URL;
@@ -79,57 +70,43 @@ export function FullPostCard({ flag, setFlag, token, author, title, description,
                     </Typography>
                 </CardContent>
 
-                <Box display="flex" alignItems="center" justifyContent="space-between" p={2} pb={2}>
-    {/* Like Button and ViewAllLikes in a vertical stack */}
-    <Box display="flex" flexDirection="column" alignItems="start">
-<<<<<<< HEAD
-        <LikeButton postId={postId}/>
-        {/* <Button
-            onClick={handleLikes}
-            startIcon={<FavoriteIcon />}
-            variant="contained"
-            color="error"
+            <Box display="flex" alignItems="center" justifyContent="space-between" px={2} pb={2}>
+                {/* Like button and likes info */}
+                <Box display="flex" alignItems="center" gap={1}>
+                    <Button
+                        onClick={handleClick}
+                        startIcon={<FavoriteIcon />}
+                        variant="contained"
+                        color="error"
+                        sx={{
+                            textTransform: 'none',
+                            fontWeight: 'bold',
+                            paddingY: '6px',
+                            paddingX: '16px',
+                        }}
+                    >
+                        Likes: {likeCount}
+                    </Button>
 
-            sx={{ textTransform: 'none', fontWeight: 'bold' }}
-        >
-            Likes: {likeCounts}
-        </Button> */}
+                    {likes.length > 0 && (
+                        <Typography variant="body2" color="textSecondary" className='hidden md:inline'>
+                            Liked by {likes[0].userName}{' '}
+                            {likes.length > 1 && `and ${likes.length - 1} others`}
+                        </Typography>
+                    )}
+                </Box>
 
-        {/* View All Likes positioned below Like button */}
-        <Box mt={1}>
-            <ViewAllLikes postId={postId} token={token}  />
-=======
-        <Button
-            onClick={handleClick}
-            startIcon={<FavoriteIcon />}
-            variant="contained"
-            color="error"
-            sx={{ textTransform: 'none', fontWeight: 'bold' }}
-        >
-            Likes: {likeCount}
-        </Button>
+                {/* Superchat button */}
+                <Superchat postId={postId} recipientId={authorId} token={token} />
+            </Box>
 
-        {/* View All Likes positioned below Like button */}
-        <Box mt={1}>
-            <ViewAllLikes postId={postId} token={token} setLikesName={setLikesName} toggle={toggle} />
->>>>>>> 8b9ce95dc7da1221345cda8c9c7651ed0393daa4
-        </Box>
-    </Box>
+            {/* Likes View and Comments Section */}
+            <Box px={2} pb={2}>
+                <ViewAllLikes postId={postId} token={token} setLikesName={setLikesName} toogle={toggle} />
+            </Box>
 
-    {/* Superchat Button aligned to the right */}
-<<<<<<< HEAD
-    <Superchat postId={postId} recipientId={authorId}  />
-=======
-    <Superchat postId={postId} recipientId={authorId} token={token} />
->>>>>>> 8b9ce95dc7da1221345cda8c9c7651ed0393daa4
-</Box>
-            </Card>
-
-            {/* Likes View */}
            
-
-            {/* Comment Section pinned at bottom, outside the card */}
-            <Box mt={2}>
+            <Box px={2} pb={2}>
                 <CommentSection postId={postId} />
             </Box>
         </Box>

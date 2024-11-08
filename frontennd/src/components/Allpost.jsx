@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { PostCard } from './PostCard';
+<<<<<<< HEAD
 import LoadingSpinner from './Loading';
 
 export function Allpost() {
@@ -10,10 +11,21 @@ export function Allpost() {
     const [postsPerPage] = useState(6); // You can change this value to set how many posts per page
   
     const BASE_URL = import.meta.env.VITE_API_URL;
+=======
+import { useLocation } from 'react-router-dom'; // React Router hook to detect location changes
+
+export function Allpost() {
+    const [posts, setPosts] = useState([]);  // State to store all posts
+    const [currentPage, setCurrentPage] = useState(1); // Track the current page
+    const postsPerPage = 5; // Number of posts per page
+    const BASE_URL = import.meta.env.VITE_API_URL;
+    const location = useLocation(); // React Router hook to detect route changes
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
+<<<<<<< HEAD
                 const response = await axios.get(`${BASE_URL}/allPost`, {
                     params: {
                         page: currentPage,
@@ -23,14 +35,31 @@ export function Allpost() {
 
                 setPosts(response.data.posts);
                 setTotalPosts(response.data.totalPosts); // Set total posts
+=======
+                const response = await axios.get(`${BASE_URL}/user`);
+                // Assuming response.data.posts contains the array of posts
+                console.log(response.data.posts);
+                setPosts(response.data.posts);
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
             } catch (error) {
                 // Handle error
                 console.error("Error fetching posts:", error);
             }
         };
+      
 
         fetchPosts();
+<<<<<<< HEAD
     }, [currentPage, postsPerPage]); // Fetch posts when currentPage or postsPerPage changes
+=======
+    }, [location]); // Adding location to dependency array triggers re-fetch on navigation changes
+
+    // Calculate the index of the last and first post for the current page
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost); // Get current posts for the page
+    const totalPages = Math.ceil(posts.length / postsPerPage); // Total number of pages
+>>>>>>> 178399d59b5e3c79d857fcd74150e6b24b3b9db9
 
     const updateLikeCount = (postId, newLikeCount) => {
         setPosts(prevPosts =>
@@ -50,7 +79,7 @@ export function Allpost() {
     return (
         <div className='bg-gray-100 flex flex-col items-center justify-center p-2'>
             <div className='w-full'>
-                {posts.map((post) => (
+                {currentPosts.map((post) => (
                     <PostCard
                         id={post._id}
                         key={post._id}
