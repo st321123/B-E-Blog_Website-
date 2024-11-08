@@ -7,14 +7,15 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
-export function Signin({ setUser }) {
+
+export function Signin() {
   const [error, SetError] = useState("");
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigator = useNavigate();
 
-  const BASE_URL = https://b-e-blog-website-z1k8.vercel.app || 'http://localhost:3000';
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   
 
@@ -55,9 +56,9 @@ export function Signin({ setUser }) {
                 })
                 .then((e) => {
                   if (e.data.msg === "Success") {
-                    localStorage.setItem("_id", e.data._id);
-                    localStorage.setItem("user", e.data.user);
-                    navigator("/user-dashboard");
+                    // console.log("Looged in");
+                    localStorage.setItem("token", e.data.token);
+                    navigator("/");
                   }
                 })
                 .catch((error) => {

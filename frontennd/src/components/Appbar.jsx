@@ -1,76 +1,136 @@
-import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaUser } from 'react-icons/fa'; // Importing the user icon from react-icons
+import React, { useEffect, useState } from 'react';
+import { WalletDetails } from './WalletDetails';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaPlus } from 'react-icons/fa'; // Import FaPlus icon
 
-export function AppBar() {
-  const user = localStorage.getItem("user");
+import axios from 'axios';
+
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+export function NavBar() {
+
+  
+  const [user, setUser] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const location = useLocation();
-
-//   console.log("This is user ", user);
 
   const handleLogout = (event) => {
     event.preventDefault(); // Prevent default link behavior
-    localStorage.removeItem("userId");
-    localStorage.removeItem("user"); // Remove the user as well
+    localStorage.removeItem("token"); // Remove the user token
     navigate("/signin"); // Redirect to signin page
   };
 
-  // Check if the current location is either '/signin' or '/signup'
-  const isAuthPage = (user? true:false);
-  
+  useEffect(() => {
+    if (token) {
+      const fetchUserDetails = async () => {
+        try {
+          const userResponse = await axios.get(`${BASE_URL}/user`, {
+            headers: {
+              Authorization: token
+            }
+          });
+       
+          
+          setUser(userResponse.data.userDetails);
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      };
+      fetchUserDetails();
+    }
+  }, []);
 
-  
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+
+
   return (
-    <nav className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 p-5 shadow-lg">
+    <nav className="bg-gradient-to-r from-blue-500 to-green-500 p-5 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Left side - Logo */}
-        <div className="text-white text-3xl font-extrabold">
+        {/* Left side - Logo with Home link */}
+        <Link to="/" className="text-white text-3xl font-extrabold flex items-center">
           B&E
-        </div>
+        </Link>
 
-        {/* Right side - Navigation Links */}
-        {isAuthPage && ( // Only render the right-side links if not on auth pages
-          <div className="flex items-center space-x-6">
+        {/* Right side - Conditional Navigation Links */}
+        {token ? (
+          <div className="flex items-center space-x-4 md:space-x-6">
+            {/* Clickable Balance */}
+            <div 
+              onClick={toggleModal} 
+              className="text-white text-sm md:text-lg font-medium hover:text-yellow-400 transition-colors duration-300 flex items-center justify-center h-10 md:h-12 px-3 md:px-4 rounded-md ml-4 cursor-pointer">
+              Balance: ${user.coins !== undefined ? user.coins.toFixed(2) : "Loading..."}
+            </div>
+
             {/* Home Link */}
-            <Link 
-              to="/user-dashboard" 
-              className="text-white text-lg font-medium hover:text-yellow-400 transition-colors duration-300 flex items-center justify-center h-12 px-4 rounded-md">
-              Home
-            </Link>
+            <Link
+  to="/"
+  className="text-white hidden md:block text-sm md:text-lg font-medium hover:text-yellow-400 transition-colors duration-300 md:flex md:items-center md:justify-center h-10 md:h-12 px-3 md:px-4 rounded-md">
+  Home
+</Link>
 
             {/* Create Profile */}
-            <Link 
-              to="/create-post" // Update the path if necessary
-              className="text-white text-lg font-medium hover:text-yellow-400 transition-all duration-300 ease-in-out transform flex items-center justify-center h-12 px-4 rounded-md">
-              Create 
-            </Link>
+            <Link
+  to="/create-post"
+  className="text-white text-sm md:text-lg font-medium hover:text-yellow-400 transition-all duration-300 ease-in-out transform flex items-center justify-center h-10 md:h-12 px-3 md:px-4 rounded-md">
+  <span className="md:hidden flex items-center">
+    <FaPlus className="mr-1" /> {/* Plus icon for small screens */}
+  </span>
+  <span className="hidden md:inline">Create</span> {/* Show 'Create' on medium and larger screens */}
+</Link>
 
             {/* Profile */}
-            <Link 
-              to="/profile" // Update the path if necessary
-              className="flex items-center space-x-2 text-white hover:text-yellow-400 transition-all duration-300 ease-in-out transform h-12 px-4 rounded-md">
-              <div 
-                className="flex items-center justify-center rounded-full w-10 h-10 bg-blue-500 text-white font-bold border-2 border-white"
-              >
-                {user && user[0]} {/* Display the first character of the username */}
+            <Link
+              to="/profile"
+              className="flex items-center space-x-2 text-white hover:text-yellow-400 transition-all duration-300 ease-in-out transform h-10 md:h-12 px-3 md:px-4 rounded-md">
+              <div className={`flex items-center justify-center rounded-full w-8 h-8 md:w-10 md:h-10 bg-blue-500 text-white font-bold border-2 border-white`}>
+                {user.userName && user.userName.charAt(0)}
               </div>
-              <span className="text-lg font-medium flex items-center">
-                <FaUser className="mr-2" /> {/* User icon */}
-                {user && user}
+              <span className="hidden md:flex text-sm md:text-lg font-medium flex items-center">
+                {user.userName && user.userName.split(" ")[0]}
               </span>
             </Link>
 
             {/* Logout */}
             <Link
               to="/signin"
-              onClick={handleLogout} // Call handleLogout when the link is clicked
-              className="text-white text-lg font-medium hover:text-yellow-400 transition-all duration-300 ease-in-out transform flex items-center justify-center h-12 px-4 rounded-md">
+              onClick={handleLogout}
+              className="text-white text-sm md:text-lg font-medium hover:text-yellow-400 transition-all duration-300 ease-in-out transform flex items-center justify-center h-10 md:h-12 px-3 md:px-4 rounded-md">
               Logout
+            </Link>
+          </div>
+        ) : (
+          <div className="flex items-center space-x-4 md:space-x-6">
+            {/* Clickable Balance for No Token */}
+            <div 
+              className="text-white text-sm md:text-lg font-medium cursor-pointer hover:text-yellow-400 transition-colors duration-300 flex items-center justify-center h-10 md:h-12 px-3 md:px-4 rounded-md">
+              Balance: $0.00
+            </div>
+
+            {/* Login Button */}
+            <Link
+              to="/signin"
+              className="text-white text-sm md:text-lg font-medium hover:text-yellow-400 transition-colors duration-300 flex items-center justify-center h-10 md:h-12 px-3 md:px-4 rounded-md">
+              Login
+            </Link>
+
+            {/* Signup Button */}
+            <Link
+              to="/signup"
+              className="text-white text-sm md:text-lg font-medium hover:text-yellow-400 transition-all duration-300 ease-in-out transform flex items-center justify-center h-10 md:h-12 px-3 md:px-4 rounded-md">
+              Signup
             </Link>
           </div>
         )}
       </div>
+
+      {/* Modal for User Details */}
+      {isModalOpen && (
+        <WalletDetails user={user} toggleModal={toggleModal} />
+      )}
     </nav>
   );
 }

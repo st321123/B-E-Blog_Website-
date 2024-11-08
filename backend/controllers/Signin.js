@@ -4,7 +4,9 @@ const router = express.Router();
 const zod = require('zod');
 const { User } = require("../models/user");
 app.use(express.json());
-
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const jwtPass = process.env.JWT_SECRET;
 const signinSchema = zod.object({
     email:zod.string().email(),
     password:zod.string().min(8)
@@ -36,8 +38,11 @@ router.post("/",async (req,res)=>{
             return res.status(400).json({ msg:"Invalid password"  })
         }
 
+        const token = jwt.sign(email,jwtPass);
+
+
         
-        res.status(200).json({_id: db._id,user:db.author,msg:"Success", }) 
+        res.status(200).json({_id: db._id,user:db.author,msg:"Success", token }) 
 
         }
     

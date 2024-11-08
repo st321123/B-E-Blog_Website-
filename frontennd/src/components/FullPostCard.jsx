@@ -1,33 +1,137 @@
-import React from 'react';
+<<<<<<< HEAD
+import React, { useEffect, useState } from 'react';
+=======
+import React, { useState } from 'react';
+>>>>>>> 8b9ce95dc7da1221345cda8c9c7651ed0393daa4
+import { Card, CardContent, CardMedia, Typography, Button, Box, Link as MuiLink } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { CommentSection } from './Comment';
+import axios from 'axios';
+import { ViewAllLikes } from './ViewAllLikes';
+import { Superchat } from './Superchat';
+import { Link } from 'react-router-dom';
+<<<<<<< HEAD
+import {useSetRecoilState} from "recoil"
+import { likeCountFamily } from '../store/like';
+import { LikeButton } from './Like';
+=======
+>>>>>>> 8b9ce95dc7da1221345cda8c9c7651ed0393daa4
 
-export function FullPostCard({ author, title, description, image, id }) {
-  return (
-    <div className="flex flex-col bg-white shadow-lg rounded-lg p-6 mx-auto my-8 w-full max-w-4xl  hover:shadow-2xl hover:scale-105">
-      
-      <div className="w-full mb-6">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-4 leading-tight">
-          {title}
-        </h1>
+export function FullPostCard({ flag, setFlag, token, author, title, description, image, postId, likeCount, authorId }) {
+    const BASE_URL = import.meta.env.VITE_API_URL;
+    // const [likes, setLikesName] = useState([]);
+    const [toggle, setToggle] = useState(true);
+ 
+    const setLikeCounts = useSetRecoilState(likeCountFamily(postId));
+    useEffect(()=>{
+        setLikeCounts(likeCount)
+    },[])
+    
+    
 
-        {/* Conditionally render the image only if the "image" prop is provided */}
-        {image && (
-          <div className="w-full flex justify-center">
-            <img 
-              src={image} 
-              alt="Post Image" 
-              className="w-full max-w-md rounded-md object-cover shadow-md  hover:scale-110"
-            />
-          </div>
-        )}
-      </div>
+    return (
+        <Box width="100%"  mx="auto" my={2}>
+            {/* Post Card */}
+            <Card 
+                sx={{ 
+                    width: '100%',
+                    height: '400px',  // Adjust height as needed
+                    display: 'flex',
+                    flexDirection: 'column',
+                    borderRadius: 2,
+                    boxShadow: 3,
+                    overflow: 'hidden'
+                }}
+            >
+                {/* Scrollable Content Section */}
+                <CardContent sx={{ flex: 1, overflowY: 'auto' }}>
+                    {/* Post Title */}
+                    <Typography variant="h5" fontWeight="bold" gutterBottom>
+                        {title}
+                    </Typography>
 
-      <p className="text-lg text-gray-700 leading-relaxed text-center px-6 mb-8">
-        {description}
-      </p>
+                    {/* Author Information */}
+                    <Box display="flex" alignItems="center" gap={1} mb={2}>
+                        <Typography variant="body2" color="textSecondary">
+                            Written by
+                        </Typography>
+                        <MuiLink component={Link} to={`/${authorId}/profile`} color="primary" underline="hover">
+                            <Typography variant="subtitle1" fontWeight="medium">
+                                {author}
+                            </Typography>
+                        </MuiLink>
+                    </Box>
 
-      <div className="w-full text-right mt-auto">
-        <p className="text-sm font-medium text-gray-600 italic">Author: {author}</p>
-      </div>
-    </div>
-  );
+                    {/* Post Image */}
+                    {image && (
+                        <CardMedia
+                            component="img"
+                            height="200"  // Fixed height for image
+                            image={image}
+                            alt="Post Image"
+                            sx={{ borderRadius: 2, objectFit: 'cover', marginBottom: 2 }}
+                        />
+                    )}
+
+                    {/* Post Description */}
+                    <Typography variant="body1" color="textSecondary"  mx={2}>
+                        {description}
+                    </Typography>
+                </CardContent>
+
+                <Box display="flex" alignItems="center" justifyContent="space-between" p={2} pb={2}>
+    {/* Like Button and ViewAllLikes in a vertical stack */}
+    <Box display="flex" flexDirection="column" alignItems="start">
+<<<<<<< HEAD
+        <LikeButton postId={postId}/>
+        {/* <Button
+            onClick={handleLikes}
+            startIcon={<FavoriteIcon />}
+            variant="contained"
+            color="error"
+
+            sx={{ textTransform: 'none', fontWeight: 'bold' }}
+        >
+            Likes: {likeCounts}
+        </Button> */}
+
+        {/* View All Likes positioned below Like button */}
+        <Box mt={1}>
+            <ViewAllLikes postId={postId} token={token}  />
+=======
+        <Button
+            onClick={handleClick}
+            startIcon={<FavoriteIcon />}
+            variant="contained"
+            color="error"
+            sx={{ textTransform: 'none', fontWeight: 'bold' }}
+        >
+            Likes: {likeCount}
+        </Button>
+
+        {/* View All Likes positioned below Like button */}
+        <Box mt={1}>
+            <ViewAllLikes postId={postId} token={token} setLikesName={setLikesName} toggle={toggle} />
+>>>>>>> 8b9ce95dc7da1221345cda8c9c7651ed0393daa4
+        </Box>
+    </Box>
+
+    {/* Superchat Button aligned to the right */}
+<<<<<<< HEAD
+    <Superchat postId={postId} recipientId={authorId}  />
+=======
+    <Superchat postId={postId} recipientId={authorId} token={token} />
+>>>>>>> 8b9ce95dc7da1221345cda8c9c7651ed0393daa4
+</Box>
+            </Card>
+
+            {/* Likes View */}
+           
+
+            {/* Comment Section pinned at bottom, outside the card */}
+            <Box mt={2}>
+                <CommentSection postId={postId} />
+            </Box>
+        </Box>
+    );
 }

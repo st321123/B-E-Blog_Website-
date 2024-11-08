@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 
-
 const userSchema = new mongoose.Schema({
-    author: {
+    userName: {
         type: String,
         required: true 
     },
@@ -19,9 +18,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: '' 
     },
+    coins: { // New field for coins
+        type: Number,
+        default: 1000 // Initial amount assigned to each user
+    },
     createdAt: {
         type: Date,
         default: Date.now 
+    },
+    followerCount: {
+        type: Number,
+        default: 0 // Default follower count
+    },
+    followingCount: {
+        type: Number,
+        default: 0 // Default following count
     }
 });
 

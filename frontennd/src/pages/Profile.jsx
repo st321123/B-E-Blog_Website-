@@ -1,59 +1,119 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// Import PostCard component for displaying posts
-import {PostCard } from '../components/PostCard'; 
+import { ProfilePostCard } from '../components/ProfilePostCard'; 
+import { Typography, Box, Grid, Container, Paper } from '@mui/material';
+import LoadingSpinner from '../components/Loading';
+import { useNavigate } from 'react-router-dom';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export function Profile() {
-  
+
   const [posts, setPosts] = useState([]);
-  const id = localStorage.getItem('_id'); // Assume the user ID is stored in localStorage
-  const user = localStorage.getItem("user");
-  const BASE_URL =  import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  const [flag, setFlag] = useState(false);
+  const [userDetails, setUserDetails] = useState({});
+  const token = localStorage.getItem("token");
+  const [loading ,setLoading ] = useState(true);
+
   useEffect(() => {
-    // Fetch user's posts
     const fetchUserPosts = async () => {
       try {
-        // console.log("Fetching posts for user ID:", id);
-        
-        // Make a GET request to fetch user's posts
         const userResponse = await axios.get(`${BASE_URL}/user-posts`, {
-          params: { id } // Pass the user ID as a query parameter
+          headers: {
+            Authorization: token
+          }
         });
         
-        // console.log("User posts response:", userResponse.data);
-        setPosts(userResponse.data.db); // Assuming 'db' contains the posts array
-
+        setPosts(userResponse.data.db.length > 0 ? userResponse.data.db : []);
+        setUserDetails(userResponse.data.userDetails);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching user posts:", error);
       }
     };
 
-    if (id) { // Check if ID exists before fetching
-      fetchUserPosts();
-    }
-  }, [id]);
+    fetchUserPosts();
+  }, [flag, userDetails.followerCount, userDetails.followingCount]);
 
-  if (!user) {
-    return <h1>Loading...</h1>; // Handle loading state if user is not found
+  if (!token) {
+    return useNavigate('/');
   }
 
-  return (
-    <div className="p-4 bg-gray-100">
-      <h1 className="text-2xl font-bold">{user}'s Profile</h1>
-      <p className="text-lg">Posts Created: {posts.length}</p>
+  if(loading)
+    {
+      return(<LoadingSpinner />)
+    }
 
-      <div className="mt-4">
-        <h2 className="text-xl font-semibold">All Posts:</h2>
-        <div className="grid grid-cols-1 gap-4">
+  return (
+    <Container maxWidth="md" sx={{ py: 4 }}>
+  <Box 
+    display="flex" 
+    flexDirection={{  sm: 'row' }} 
+    justifyContent="space-between" 
+    alignItems="center" 
+    mb={4}
+  >
+    <Typography 
+      variant="h4" 
+      fontWeight="bold" 
+      sx={{ textAlign: {  sm: 'left' } }} // Centered title on small screens
+    >
+      {userDetails.userName.split(" ",1)}'s Profile
+    </Typography>
+    <Box 
+      display="flex" 
+      gap={3} 
+      mt={{ xs: 2, sm: 0 }} // Added margin-top for small screens
+      justifyContent={{  sm: 'flex-end' }} // Center items on small screens
+    >
+      <Box textAlign="center">
+        <Typography variant="h6" fontWeight="medium">
+          {userDetails.followerCount}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          Followers
+        </Typography>
+      </Box>
+      <Box textAlign="center">
+        <Typography variant="h6" fontWeight="medium">
+          {userDetails.followingCount}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          Following
+        </Typography>
+      </Box>
+    </Box>
+  </Box>
+
+      <Typography variant="h6" color="textSecondary">
+        Posts Created: {posts.length}
+      </Typography>
+
+      <Box mt={4}>
+        <Typography variant="h5" fontWeight="bold" gutterBottom>
+          All Posts:
+        </Typography>
+        <Grid container spacing={2}>
           {posts.length > 0 ? (
             posts.map((post) => (
-              <PostCard key={post._id} id={post._id} title={post.title} description={post.description} />
+              <Grid item xs={12} key={post._id}>
+                <ProfilePostCard 
+                  flag={flag} 
+                  setFlag={setFlag} 
+                  token={token} 
+                  id={post._id} 
+                  title={post.title} 
+                  description={post.description} 
+                  createdAt={post.createdAt} 
+                />
+              </Grid>
             ))
           ) : (
-            <p>No posts created by this user.</p>
+            <Typography variant="body1" color="textSecondary">
+              No posts created by this user.
+            </Typography>
           )}
-        </div>
-      </div>
-    </div>
+        </Grid>
+      </Box>
+    </Container>
   );
 }

@@ -5,17 +5,16 @@ import {SubHeading} from "../components/SubHeading"
 import {BottomWarning} from '../components/BottomWarning'
 import { useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router"
 export function Signup(){
 
-const [author, setAuthor] = useState("");
+const [userName, setUserName] = useState("");
 const [email, setemail] = useState("");
 const [password, setPassword] = useState("");
 const [error, setError] = useState("");
-<<<<<<< HEAD
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-=======
- const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
->>>>>>> 2e35faa2a30436100ea874552fa1a0c15b034798
+const navigate = useNavigate();
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 
 return(
     <div className="flex  h-screen justify-center bg-slate-300" style={{ height: 'calc(100vh - 76px)' }}>
@@ -26,8 +25,8 @@ return(
    <SubHeading  label={"Enter your details to create an account"} />
    
    <InputBox onChange= {(e)=>{
-    setAuthor(e.target.value);
-   }} placeholder={"Enter your name"} type= {"Doe"} label={"Author Name"} required={"true"} value={author} name="author"/>
+    setUserName(e.target.value);
+   }} placeholder={"Enter your name"} type= {"Doe"} label={"User Name"} required={"true"} value={userName} name="userName"/>
    <InputBox onChange= {(e)=>{
     setemail(e.target.value);
    }} placeholder={"Enter your email"} type= {"shubham@gmail.com"} label={"Email Id"}  value={email} name="email"/>
@@ -37,16 +36,17 @@ return(
 
 
    <Button onClick = { async ()=>{
-    // console.log(email,password,author);
+   
     
     try{
 
      const response = await axios.post(`${BASE_URL}/signup`,{
-        author,email,password
+        userName,email,password
     })
-    
-       
-        setAuthor("");
+   
+    localStorage.setItem("token", response.data.token);
+        navigate("/");
+        setUserName("");
         setemail("");
         setPassword("");
         setError("");
@@ -56,7 +56,7 @@ return(
     catch(er)
     {
         setError("Please enter valid email and password")
-        // console.log("invalild ");
+      
         
     }
         

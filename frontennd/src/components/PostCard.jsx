@@ -1,39 +1,109 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { LikeButton } from './Like';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Card, CardContent, Typography, Box, Button, Chip, Tooltip } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import {likeCountFamily} from "../store/like"
+import { useSetRecoilState } from 'recoil';
 
-export function PostCard({ name, title, description, id }) {
+export function PostCard({ name, title, description, id, likeCount }) {
+
+  
   const [isExpanded, setIsExpanded] = useState(false);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+ 
+  const setLikeCount = useSetRecoilState( likeCountFamily(id));
+  useEffect(()=>{
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8b9ce95dc7da1221345cda8c9c7651ed0393daa4
+    setLikeCount(likeCount);
+  }, [])
+  
+  
+  
+  
+ 
 
   // Function to toggle between full and short description
-  
   const toggleDescription = () => {
+    if (!token) {
+      return;
+    }
     setIsExpanded(!isExpanded);
+  };
+
+  // Handle click on the post title to check for login status
+  const handlePostClick = (e) => {
+    if (!token) {
+      e.preventDefault();
+      toast.warn("Please log in to view the full post!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    } else {
+      
+      navigate(`/full-post/${id}`);
+
+    }
   };
 
   // Limit the description to 100 characters if not expanded
   const shortDescription = description.length > 100 ? `${description.substring(0, 100)}...` : description;
 
   return (
-    <div className="border rounded-lg m-4 p-4 hover:shadow-lg hover:scale-105 bg-gradient-to-br from-gray-50 via-white to-gray-100 max-w-xl mx-auto transition-all duration-300 ease-in-out">
-      <Link to={`/full-post/${id}`} className="no-underline">
-        <h1 className="text-2xl font-semibold text-gray-800 mb-2">{title}</h1>
-        <p className="text-gray-700 text-lg mb-4">
+    <Card sx={{ maxWidth: 600, margin: '20px auto', borderRadius: 2, boxShadow: 3, transition: 'transform 0.3s ease-in-out', '&:hover': { transform: 'scale(1.03)', boxShadow: 6 } }}>
+      <CardContent>
+        <Link to={`/full-post/${id}`} onClick={handlePostClick} style={{ textDecoration: 'none' }}>
+          <Typography variant="h5" component="h2" fontWeight="bold" color="text.primary" gutterBottom>
+            {title}
+          </Typography>
+       
+
+        {/* Description with "Read More/Less" toggle */}
+        <Typography variant="body1" color="text.secondary" sx={{ marginBottom: 2 }}>
           {isExpanded ? description : shortDescription}
           {description.length > 100 && (
-            <span
-              onClick={toggleDescription} // Toggle description on click
-              className="text-blue-500 ml-2 cursor-pointer px-2 py-1 rounded-full transition-all duration-300 ease-in-out hover:bg-blue-100 hover:text-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
-            >
-              {isExpanded ? 'Read Less' : 'Read More'}
-            </span>
+            <Tooltip title={isExpanded ? "Read less" : "Read more"} arrow>
+              <Button
+                onClick={toggleDescription}
+                size="small"
+                color="primary"
+                sx={{
+                  textTransform: 'none',
+                  padding: '0 8px',
+                  fontWeight: 'medium',
+                  '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.1)' },
+                }}
+              >
+                {isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                {isExpanded ? 'Read Less' : 'Read More'}
+              </Button>
+            </Tooltip>
           )}
-        </p>
-        <p className="text-right text-gray-500 text-sm mt-4">
-          <span className="inline-block bg-blue-50 text-blue-600 font-semibold px-2 py-1 rounded-full shadow-sm">
-            Posted by: {name}
-          </span>
-        </p>
-      </Link>
-    </div>
+        </Typography>
+        </Link>
+
+        {/* Like Button */}
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <LikeButton postId={id} likeCounts = {likeCount}/>
+
+          <Chip
+            label={`Posted by: ${name}`}
+            color="primary"
+            variant="outlined"
+            sx={{ fontSize: '0.875rem', fontWeight: '500' }}
+          />
+        </Box>
+      </CardContent>
+
+      {/* ToastContainer for notifications */}
+      <ToastContainer />
+    </Card>
   );
 }

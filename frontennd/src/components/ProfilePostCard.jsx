@@ -1,17 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { DeletePost } from './DeletePost';
+import { Card, CardContent, Typography, Box, Button } from '@mui/material';
 
-export function ProfilePostCard({ id, title, description, createdAt }) {
+export function ProfilePostCard({ id, title, description, createdAt, token, flag, setFlag }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+
+
+  const shortDescription = description.length > 100 ? `${description.substring(0, 100)}...` : description;
+
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <div className="bg-white shadow-md rounded-lg p-4">
-      <h2 className="text-xl font-bold">{title}</h2>
-      <p className="text-gray-700 mt-2">{description}</p>
-      {createdAt && (
-        <p className="text-gray-500 text-sm mt-2">Created at: {new Date(createdAt).toLocaleDateString()}</p>
-      )}
-      <div className="mt-4">
-      {/* < FullPostCard  className="text-blue-500 hover:underline"/> */}
-        <a href={`/profile`} className="text-blue-500 hover:underline">Read More</a>
-      </div>
-    </div>
+    <Card variant="outlined" sx={{ borderRadius: 2, boxShadow: 3, mb: 2 }}>
+      <CardContent>
+        <Typography variant="h5" fontWeight="bold" color="primary" gutterBottom>
+          {title}
+        </Typography>
+        <Typography variant="body1" color="textSecondary" paragraph>
+          {isExpanded ? description : shortDescription}
+          {description.length > 100 && (
+            <Button onClick={toggleDescription} size="small" color="secondary" sx={{ ml: 1 }}>
+              {isExpanded ? 'Read Less' : 'Read More'}
+            </Button>
+          )}
+        </Typography>
+
+        <Box mt={2} display="flex" alignItems="center" justifyContent="space-between">
+          <Typography variant="body2" color="textSecondary">
+            {createdAt ? `Created on: ${new Date(createdAt).toLocaleDateString()}` : ''}
+          </Typography>
+          
+          {/* Delete Post Button */}
+          <Box>
+            <DeletePost postId={id} token={token} setFlag={setFlag} flag={flag} />
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }
